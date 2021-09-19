@@ -10,6 +10,7 @@ namespace VariableMonitor.Editor
         private IReadOnlyDictionary<string, string> _values;
         private List<Item> _items;
         private ReorderableList _reorderableList;
+        private Vector2 _scrollPosition;
 
         [MenuItem("Window/Variable Monitor")]
         public static void ShowWindow()
@@ -30,7 +31,6 @@ namespace VariableMonitor.Editor
                 displayAddButton: false,
                 displayRemoveButton: false
             );
-            _reorderableList.draggable = true;
             _reorderableList.drawElementCallback += DrawElementCallback;
         }
 
@@ -67,7 +67,11 @@ namespace VariableMonitor.Editor
 
         public void OnGUI()
         {
-            _reorderableList.DoLayoutList();
+            using (var scrollView = new EditorGUILayout.ScrollViewScope(_scrollPosition))
+            {
+                _scrollPosition = scrollView.scrollPosition;
+                _reorderableList.DoLayoutList();
+            }
         }
 
         private void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
