@@ -1,3 +1,4 @@
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using VariableMonitor;
@@ -15,47 +16,41 @@ public class Sample : MonoBehaviour
     {
         Debug.Log("Start");
 
-        var variableA = 0;
-        var variableB = 0;
-        var variableC = 0;
-        VariableLogger.Log("VariableA", variableA);
-        VariableLogger.Log("VariableB", variableB);
-        VariableLogger.Log("VariableC", variableC);
+        var variableA = new ReactiveProperty<int>(2);
+        var variableB = new ReactiveProperty<int>(4);
+        var variableC = new ReactiveProperty<int>(6);
+        VariableLogger.Register("VariableA", variableA);
+        VariableLogger.Register("VariableB", variableB);
+        VariableLogger.Register("VariableC", variableC);
 
         variablePlusA.onClick.AddListener(() =>
         {
-            variableA++;
-            VariableLogger.Log("VariableA", variableA);
+            variableA.Value++;
         });
 
         variableMinusA.onClick.AddListener(() =>
         {
-            variableA--;
-            VariableLogger.Log("VariableA", variableA);
+            variableA.Value--;
         });
 
         variablePlusB.onClick.AddListener(() =>
         {
-            variableB++;
-            VariableLogger.Log("VariableB", variableB);
+            variableB.Value++;
         });
 
         variableMinusB.onClick.AddListener(() =>
         {
-            variableB--;
-            VariableLogger.Log("VariableB", variableB);
+            variableB.Value--;
         });
 
         variablePlusC.onClick.AddListener(() =>
         {
-            variableC++;
-            VariableLogger.Log("VariableC", variableC);
+            variableC.Value++;
         });
 
         variableMinusC.onClick.AddListener(() =>
         {
-            variableC--;
-            VariableLogger.Log("VariableC", variableC);
+            variableC.Value--;
         });
     }
 }

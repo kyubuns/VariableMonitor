@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UniRx;
 using UnityEngine;
 
 namespace VariableMonitor
@@ -18,11 +20,23 @@ namespace VariableMonitor
             _values = new Dictionary<string, string>();
         }
 
+        [Conditional("UNITY_EDITOR")]
         public static void Log(string name, object value)
         {
             var text = value.ToString();
             _values[name] = text;
             OnUpdate?.Invoke(name, text);
         }
+
+#if SUPPORT_UNIRX
+        [Conditional("UNITY_EDITOR")]
+        public static void Register<T>(string name, IObservable<T> reactiveProperty)
+        {
+            reactiveProperty.Subscribe(x =>
+            {
+                Log(name, x);
+            });
+        }
+#endif
     }
 }
