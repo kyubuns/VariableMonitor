@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace VariableMonitor.Editor
     public class VariableMonitorWindow : EditorWindow
     {
         private IReadOnlyDictionary<string, string> _values;
+        private List<string> _order;
         private List<Item> _items;
         private ReorderableList _reorderableList;
         private Vector2 _scrollPosition;
@@ -45,6 +47,7 @@ namespace VariableMonitor.Editor
             if (playModeStateChange == PlayModeStateChange.EnteredPlayMode)
             {
                 _values = VariableLogger.Values;
+                _order = new List<string>();
                 VariableLogger.OnUpdate += OnUpdate;
                 OnUpdate();
             }
@@ -52,13 +55,15 @@ namespace VariableMonitor.Editor
 
         private void OnUpdate(string key, string value)
         {
+            _order.RemoveAll(x => x == key);
+            _order.Add(key);
             OnUpdate();
         }
 
         private void OnUpdate()
         {
             _items.Clear();
-            foreach (var v in _values)
+            foreach (var v in _values.OrderByDescending(x => _order.FindIndex(y => x.Key == y)))
             {
                 _items.Add(new Item(v.Key, v.Value));
             }
