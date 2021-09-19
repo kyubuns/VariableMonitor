@@ -1,0 +1,16 @@
+{
+  "name": "dev.kyubuns.variablemonitor",
+  "displayName": "VariableMonitor",
+  "version": "1.0.0",
+  "unity": "2020.3",
+  "description": "Variable Monitor",
+  "documentationUrl": "https://github.com/kyubuns/VariableMonitor",
+  "dependencies": {
+  },
+  "author": {
+    "name": "kyubuns",
+    "email": "kyubuns@gmail.com",
+    "url": "https://kyubuns.dev/"
+  },
+  "type": "library"
+}
