@@ -73,10 +73,18 @@ namespace VariableMonitor.Editor
         private void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
         {
             var v = _items[index];
-            EditorGUI.LabelField(rect, v.Key);
 
-            rect.xMin += 100;
-            EditorGUI.LabelField(rect, v.Value);
+            {
+                var skinLabel = GUI.skin.label;
+                skinLabel.alignment = TextAnchor.MiddleLeft;
+                EditorGUI.LabelField(rect, v.Key, skinLabel);
+            }
+
+            {
+                var skinLabel = GUI.skin.label;
+                skinLabel.alignment = TextAnchor.MiddleRight;
+                EditorGUI.LabelField(rect, v.Value, skinLabel);
+            }
         }
 
         private class Item
